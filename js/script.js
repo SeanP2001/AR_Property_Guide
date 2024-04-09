@@ -26,7 +26,7 @@ d3.csv("./SimpleData.csv", function(data) {   // Load the data from the csv file
 
 // ------------------------------------------------- B I N   D A T A -------------------------------------------------
   
-  const numBins = 7;     // Set the number of bins
+  const noOfBins = 7;     // Set the number of bins
   const binColours = [   // Set the colours for each bin
     '#00823A', //Green
     '#299E29', //Mid Green
@@ -38,15 +38,8 @@ d3.csv("./SimpleData.csv", function(data) {   // Load the data from the csv file
   ]; 
   const reverse = false;  // Set whether the order is reversed
 
-  // Get the range of the dataset
-  const minValue = d3.min(dataset);
-  const maxValue = d3.max(dataset);
-  console.log("min: " + minValue + ", max: " + maxValue);
-
-  // Create a colour scale
-  const colourScale = d3.scale.linear()
-      .domain([minValue, maxValue])  // Set the scale of the input domain (The data value)
-      .range([0, numBins-1]);        // Set the output range (bin number)
+  var thresholds = getThresholds(dataset, noOfBins);  // Get the threshold values for the bins
+  var bins = getBins(dataset, thresholds);            // Get the bin numbers of each datapoint in the dataset
 
 
 // --------------------------------------- S E T   B A R   A T T R I B U T E S ---------------------------------------
@@ -75,12 +68,56 @@ d3.csv("./SimpleData.csv", function(data) {   // Load the data from the csv file
     height: function(d){return d*scale;},       // Set the height of the bar based on the data value (half scale)
     width: function(d){return 0.9;},            // Set the width to a const value (0.9)
     depth: function(d){return 0.9;},            // Set the depth to a const value (0.9)
-    color: function(d){                         // Set the colour of the bar based on the bin number and the colour scale (can reverse order)
+    color: function(d,i){                       // Set the colour of the bar based on the colour of the bin given to the data point (can reverse order)
         if(reverse){
-          return binColours[Math.floor(colourScale(d))];
+          return binColours[bins[i]];
         } else {
-          return binColours[numBins - 1 - Math.floor(colourScale(d))];
+          return binColours[noOfBins - 1 - bins[i]];
         }
       }                           
   });
 });
+
+
+// ------------------------------------------------- G E T   B I N S -------------------------------------------------
+function getBins(data, thresholds)  // Get an array containing the bin number for each datapoint, given a set of threshold values
+{
+  var bins = [];                                                          // Create an array to contain the bin numbers
+
+  for (var i = 0; i < data.length; i++)                                   // Iterate through each index in the dataset
+  {
+    for(var bin = 0; bin < (thresholds.length-1); bin++)                  // Iterate through each bin number
+    {
+      if ((data[i] >= thresholds[bin]) && (data[i] < thresholds[bin+1]))  // If the datapoint is within the lower and upper thresholds for this bin
+      {
+        bins.push(bin);                                                   // Append the bin number to the array of bin numbers
+        break;                                                            // Move onto the next datapoint
+      } 
+    }
+  }
+
+  console.log(bins);
+  return bins;                                                            // Return the array containing the bin numbers for each datapoint
+}
+
+
+// ------------------------------------------- G E T   T H R E S H O L D S -------------------------------------------
+function getThresholds(data, noOfBins)  // Get an array containing the thresholds for the bins
+{
+  var thresholds = [];                            // Create an array to store the threshold values
+
+  var minValue = Math.min(...data);                 // Get the lowest value in the dataset
+  var maxValue = Math.max(...data);                 // Get the highest value in the dataset
+
+  var binRange = (maxValue - minValue)/noOfBins;    // Calculate the range of each bin
+
+  for(var bin = 0; bin < noOfBins; bin++)           // Iterate through each bin
+  {
+    thresholds.push(minValue + (binRange * bin));   // Calculate the lower threshold and append it to the array of thresholds
+  }
+
+  thresholds.push(maxValue+1);                      // Add the upper threshold for the top bin (+1 to include values equal to the top threshold)
+
+  console.log(thresholds);
+  return thresholds;                                //  Return the array containing the threshold values for the bins
+}
