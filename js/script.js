@@ -1,3 +1,5 @@
+import {renderKey} from './key.js';
+
 d3.csv("./SimpleData.csv", function(data) {   // Load the data from the csv file
   console.log(data);                          // Print the data to the console
 
@@ -28,18 +30,20 @@ d3.csv("./SimpleData.csv", function(data) {   // Load the data from the csv file
   
   const noOfBins = 7;     // Set the number of bins
   const binColours = [   // Set the colours for each bin
-    '#00823A', //Green
-    '#299E29', //Mid Green
-    '#9FCC3D', //Light Green
-    '#FFF300', //Yellow
-    '#F9AE1F', //Orange
+    '#E51E25', //Red
     '#ED6A26', //Bright Orange
-    '#E51E25'  //Red
+    '#F9AE1F', //Orange
+    '#FFF300', //Yellow
+    '#9FCC3D', //Light Green
+    '#299E29', //Mid Green
+    '#00823A'  //Green
   ]; 
-  const reverse = false;  // Set whether the order is reversed
+  var reverse = false;  // Set whether the order is reversed
 
   var thresholds = getThresholds(dataset, noOfBins);  // Get the threshold values for the bins
   var bins = getBins(dataset, thresholds);            // Get the bin numbers of each datapoint in the dataset
+
+  renderKey(thresholds, binColours, reverse);         // Render the key at the bottom of the screen
 
 
 // --------------------------------------- S E T   B A R   A T T R I B U T E S ---------------------------------------
@@ -59,20 +63,20 @@ d3.csv("./SimpleData.csv", function(data) {   // Load the data from the csv file
   //  i = The index of the current element in the selection (provided by D3 during execution)
   myBars.attr({
     position: function(d,i) {
-        x=i % gridMax;                   // Layout the bars in a square (5x5) grid
-        z=Math.floor(i/gridMax);         // Layout the bars in a square (5x5) grid
-        y=d * scale / 2;                 // Position the bars so that they all sit on a plane
-        m ++;                            // Increment m (the bar count)
-        return x + " " + y + " " + z;    // Return the position string to set the position
+        var x=i % gridMax;                   // Layout the bars in a square (5x5) grid
+        var z=Math.floor(i/gridMax);         // Layout the bars in a square (5x5) grid
+        var y=d * scale / 2;                 // Position the bars so that they all sit on a plane
+        m ++;                                // Increment m (the bar count)
+        return x + " " + y + " " + z;        // Return the position string to set the position
       },
     height: function(d){return d*scale;},       // Set the height of the bar based on the data value (half scale)
     width: function(d){return 0.9;},            // Set the width to a const value (0.9)
     depth: function(d){return 0.9;},            // Set the depth to a const value (0.9)
     color: function(d,i){                       // Set the colour of the bar based on the colour of the bin given to the data point (can reverse order)
         if(reverse){
-          return binColours[bins[i]];
-        } else {
           return binColours[noOfBins - 1 - bins[i]];
+        } else {
+          return binColours[bins[i]];
         }
       }                           
   });
@@ -116,8 +120,10 @@ function getThresholds(data, noOfBins)  // Get an array containing the threshold
     thresholds.push(minValue + (binRange * bin));   // Calculate the lower threshold and append it to the array of thresholds
   }
 
-  thresholds.push(maxValue+1);                      // Add the upper threshold for the top bin (+1 to include values equal to the top threshold)
+  thresholds.push(maxValue+0.1);                    // Add the upper threshold for the top bin (+0.1 to include values equal to the top threshold)
 
   console.log(thresholds);
   return thresholds;                                //  Return the array containing the threshold values for the bins
 }
+
+

@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/splash.css">
     <link rel="stylesheet" type="text/css" href="css/app.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body style='margin: 0px; overflow: hidden;'>
     <a-scene embedded arjs>
@@ -17,11 +18,18 @@
             <!-- add stuff with JavaScript-->
 
           </a-entity>
-
         </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
-    <!-- Include the JavaScript file -->
-    <script src="js/script.js"></script>
+
+    <div id="bottom-section">
+      <h1>Age</h1>
+      <div id="key-labels"></div>
+      <div id="key-boxes"></div>
+    </div>
+
+    <!-- Include the JavaScript files -->
+    <script type="module" src="js/script.js"></script>
+    <script type="module" src="js/key.js"></script>
   </body>
 </html>
