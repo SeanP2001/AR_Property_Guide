@@ -65,4 +65,20 @@ function createKeyBox(width, height, colour)  // Create and return a div element
   return box;                                 // Return the div element
 }
 
-export {renderKey};
+
+// ----------------------------------------------- R E M O V E   K E Y -----------------------------------------------
+function removeKey() // Remove all of the elements within the "key-labels" and "key-boxes divs
+{
+  var labels = document.getElementById("key-labels");  // Get the div element containing all the threshold labels for the key
+  var boxes = document.getElementById("key-boxes");    // Get the div element containing all the coloured boxes for the key
+ 
+  while(labels.firstChild)                             // Go through each child element in the labels
+  {                            
+    labels.removeChild(labels.firstChild);             // and remove them
+  }
+
+  while(boxes.firstChild)                              // Go through each child element in the boxes
+  {
+    boxes.removeChild(boxes.firstChild);               // and remove them
+  }
+}
