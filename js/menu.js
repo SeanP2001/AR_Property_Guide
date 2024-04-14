@@ -1,13 +1,53 @@
 
 // ------------------------------------ H A N D L E   M E N U   S E L E C T I O N ------------------------------------
-function handleMenuSelection(selection) // Load the correct data based on which field has been selected in the menu
+function handleMenuSelection(selection) // Load and display the data field selected in the menu
 {
     menuButton = document.getElementById("menu-button"); // Get the Menu Button
     menuButton.textContent = selection;                  // And update its text to reflect the selected field
 
     removeKey();                                         // Delete the existing key 
 
-    loadData("./SimpleData.csv", selection);             // Load the selected data from the dataset, creating new objects and a new key
+    getData("./SimpleData.csv", selection)     // Load the selected data from the dataset
+    .then(dataset =>                           // Once the dataset has been returned from the getData function, do the following
+    {    
+        console.log(dataset);
+
+        var noOfBins;
+        var binColours = [];
+        var binNames = [];
+        var thresholds = [];
+        var bins = [];
+        var scale;
+    
+        switch(selection) {                                    // Based on the field selected, set the number of bins, bin colours, thresholds, bins and scale
+            case "Age":
+                noOfBins = noOfAgeBins;
+                binColours = ageBinColours;
+                thresholds = getThresholds(dataset, noOfBins);  // Get the threshold values for the bins
+                bins = getBins(dataset, thresholds);            // Get the bin numbers of each datapoint in the dataset
+                scale = ageScale;
+                break;
+            case "Score":
+                noOfBins = noOfScoreBins;
+                binColours = scoreBinColours;
+                thresholds = scoreThresholds;  
+                bins = getBins(dataset, thresholds);            // Get the bin numbers of each datapoint in the dataset
+                binNames = scoreBinNames;
+                scale = scoreScale;
+                break;
+            case "Salary":
+                noOfBins = noOfSalaryBins;
+                binColours = salaryBinColours;
+                thresholds = getThresholds(dataset, noOfBins);  // Get the threshold values for the bins
+                bins = getBins(dataset, thresholds);            // Get the bin numbers of each datapoint in the dataset
+                scale = salaryScale;
+                break;
+            }
+    
+        renderKey(thresholds, binColours, binNames, reverse);            // Render the key at the bottom of the screen
+    
+        createBars(dataset, noOfBins, bins, binColours, scale, reverse); // Create bars which correspond with the data provided
+    });
 }
 
 

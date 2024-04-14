@@ -1,34 +1,34 @@
 
 // ----------------------------------------------- R E N D E R   K E Y -----------------------------------------------
-function renderKey(thresholds, binColours, reverse) // Render the key 
+function renderKey(thresholds, binColours, binNames, reverse) // Render the key 
 {
   renderKeyThresholds(thresholds);         // Render the text above the key, indicating the threshold values
-  renderKeyBoxes(binColours, reverse);     // Render the boxes which show the colour for each bin
+  renderKeyBoxes(binColours, binNames, reverse);     // Render the boxes which show the colour for each bin
 }
 
 
 // ------------------------------------ R E N D E R   K E Y   T H R E S H O L D S ------------------------------------
 function renderKeyThresholds(thresholds) // Render the threshold labels for the key 
 {
-    var thresholdsContainer = document.getElementById("key-labels");      // Get the div element which is intended to constain the key labels
-    var noOfThresholds = thresholds.length;                               // Get th number of labels which need to be rendered
+  var thresholdsContainer = document.getElementById("key-labels");      // Get the div element which is intended to constain the key labels
+  var noOfThresholds = thresholds.length;                               // Get th number of labels which need to be rendered
 
-    for(var i = 0; i < noOfThresholds; i++)                               // Go through each threshold
-    {
-      var label = document.createElement("div");                          // Creating a div element
- 
-      label.textContent = thresholds[i].toFixed(0);                       // And Setting it to contain the threshold value text
+  for(var i = 0; i < noOfThresholds; i++)                               // Go through each threshold
+  {
+    var label = document.createElement("div");                          // Creating a div element
 
-      label.style.width = thresholdsContainer.clientWidth/noOfThresholds; // Set the corect width
-      label.style.textAlign = "center";                                   // Center align the text within the div
+    label.textContent = thresholds[i].toFixed(0);                       // And Setting it to contain the threshold value text
 
-      thresholdsContainer.appendChild(label);                             // Add it to the threshold label container
-    }
+    label.style.width = thresholdsContainer.clientWidth/noOfThresholds; // Set the corect width
+    label.style.textAlign = "center";                                   // Center align the text within the div
+
+    thresholdsContainer.appendChild(label);                             // Add it to the threshold label container
+  }
 }
 
 
 // ----------------------------------------- R E N D E R   K E Y   B O X E S -----------------------------------------
-function renderKeyBoxes(binColours, reverse) // Render the boxes which show the colour for each bin
+function renderKeyBoxes(binColours, binNames, reverse) // Render the boxes which show the colour and name for each bin
 {
   var boxContainer = document.getElementById("key-boxes");     // Get the div element which is intended to contain the key boxes
 
@@ -38,7 +38,7 @@ function renderKeyBoxes(binColours, reverse) // Render the boxes which show the 
   {
     for(var i = noOfBoxes-1; i >= 0; i--)                                                // Go through each box
     {
-      var box = createKeyBox(boxContainer.clientWidth/(noOfBoxes+1), 20, binColours[i]); // Creating a box of the correct colour
+      var box = createKeyBox(boxContainer.clientWidth/(noOfBoxes+1), 20, binColours[i], binNames[i]); // Creating a box of the correct colour and name
       boxContainer.appendChild(box);                                                     // And adding it to the box container
     }
   }
@@ -46,7 +46,7 @@ function renderKeyBoxes(binColours, reverse) // Render the boxes which show the 
   {
     for(var i = 0; i < noOfBoxes; i++)
     {
-      var box = createKeyBox(boxContainer.clientWidth/(noOfBoxes+1), 20, binColours[i]);
+      var box = createKeyBox(boxContainer.clientWidth/(noOfBoxes+1), 20, binColours[i], binNames[i]);
       boxContainer.appendChild(box);
     }
   }
@@ -54,13 +54,15 @@ function renderKeyBoxes(binColours, reverse) // Render the boxes which show the 
 
 
 // ------------------------------------------- C R E A T E   K E Y   B O X -------------------------------------------
-function createKeyBox(width, height, colour)  // Create and return a div element with the specified attributes 
+function createKeyBox(width, height, colour, text)  // Create and return a div element with the specified attributes 
 {
   var box = document.createElement("div");    // Create the div
 
   box.style.width = width + "px";             // Set to the specified width
   box.style.height = height + "px";           // Set to the specified height
   box.style.backgroundColor = colour;         // Set to the specified colour
+  box.style.color = "black";                  // Set the font in the box to be black
+  box.textContent = text;                     // Set the specified text content
 
   return box;                                 // Return the div element
 }

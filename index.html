@@ -10,10 +10,13 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
     <!-- Include the JavaScript files -->
-    <script src="js/script.js"></script>
+    <script src="js/global-vars.js"></script>
+    <script src="js/data-handling.js"></script>
+    <script src="js/data-rendering.js"></script>
     <script src="js/bins.js"></script>
     <script src="js/key.js"></script>
     <script src="js/menu.js"></script>
+    <script src="js/setup.js"></script>
 </head>
 <body style='margin: 0px; overflow: hidden;'>
   <a-scene embedded arjs>
@@ -30,7 +33,7 @@
 
   <div id="bottom-section">
     <div class="menu">
-      <button onclick="toggleMenu()" class="menu-button" id="menu-button">Age</button>
+      <button onclick="toggleMenu()" class="menu-button" id="menu-button"></button>
       <div id="fields-menu" class="menu-content">
         <a href="#" onclick="handleMenuSelection('Age')">Age</a>
         <a href="#" onclick="handleMenuSelection('Score')">Score</a>

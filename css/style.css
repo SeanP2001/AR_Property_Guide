@@ -45,10 +45,10 @@ a {
 button {
     text-align: center;
     color: rgb(255, 255, 255);
-    background: rgba(88, 88, 88, 0.273);
-    outline: 2px solid rgba(166, 166, 166, 0.233);
+    background: rgba(88, 88, 88, 0.3);
+    outline: 2px solid rgba(166, 166, 166, 0.25);
     border: 0px;
-    font-size: 32px;
+    font-size: 26px;
     font-weight: bold;
 	border: 0px;
     border-radius: 4px;
@@ -107,6 +107,7 @@ button:hover {
 
 .menu-content a {
     color: white;
+    font-size: 26px;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
