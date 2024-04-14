@@ -1,7 +1,17 @@
+const NumberFormatting = {
+    NONE: 0,
+    COMMA_SEPARATED: 1,
+    CURRENCY: 2,
+    CURRENCY_DECIMAL: 3,
+    DECIMAL: 4,
+    PERCENTAGE: 5
+};
+
 
 // ------------------------------------- A G E   F I E L D   P A R A M E T E R S -------------------------------------
 const noOfAgeBins = 7;     
 const ageScale = 0.25;
+const ageFormatting = NumberFormatting.NONE;
 
 const ageBinColours = [   
 '#E51E25', //Red
@@ -21,6 +31,7 @@ const noOfScoreBins = 7;
 const scoreThresholds = [0, 27, 34, 41, 56, 74, 89, 100.1];
 const scoreBinNames = ["F", "E", "D", "C", "B", "A", "A*"];
 const scoreScale = 0.15;
+const scoreFormatting = NumberFormatting.PERCENTAGE;
 
 const scoreBinColours = [   
 '#E51E25', //Red
@@ -36,6 +47,7 @@ const scoreBinColours = [
 // ---------------------------------- S A L A R Y   F I E L D   P A R A M E T E R S ----------------------------------
 const noOfSalaryBins = 5;
 const salaryScale = 0.00015;
+const salaryFormatting = NumberFormatting.CURRENCY;
 
 const salaryBinColours = [
     '#E51E25', //Red
@@ -47,4 +59,3 @@ const salaryBinColours = [
 
 
 // ----------------------------------------------------- M I S C -----------------------------------------------------
-var reverse = false;  // Set whether the order is reversed

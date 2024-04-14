@@ -18,6 +18,8 @@ function handleMenuSelection(selection) // Load and display the data field selec
         var thresholds = [];
         var bins = [];
         var scale;
+        var reverse;  // Whether the order is reversed
+        var formatting;
     
         switch(selection) {                                    // Based on the field selected, set the number of bins, bin colours, thresholds, bins and scale
             case "Age":
@@ -26,6 +28,8 @@ function handleMenuSelection(selection) // Load and display the data field selec
                 thresholds = getThresholds(dataset, noOfBins);  // Get the threshold values for the bins
                 bins = getBins(dataset, thresholds);            // Get the bin numbers of each datapoint in the dataset
                 scale = ageScale;
+                reverse = false;
+                formatting = ageFormatting;
                 break;
             case "Score":
                 noOfBins = noOfScoreBins;
@@ -34,6 +38,8 @@ function handleMenuSelection(selection) // Load and display the data field selec
                 bins = getBins(dataset, thresholds);            // Get the bin numbers of each datapoint in the dataset
                 binNames = scoreBinNames;
                 scale = scoreScale;
+                reverse = false;
+                formatting = scoreFormatting;
                 break;
             case "Salary":
                 noOfBins = noOfSalaryBins;
@@ -41,10 +47,12 @@ function handleMenuSelection(selection) // Load and display the data field selec
                 thresholds = getThresholds(dataset, noOfBins);  // Get the threshold values for the bins
                 bins = getBins(dataset, thresholds);            // Get the bin numbers of each datapoint in the dataset
                 scale = salaryScale;
+                reverse = false;
+                formatting = salaryFormatting;
                 break;
             }
     
-        renderKey(thresholds, binColours, binNames, reverse);            // Render the key at the bottom of the screen
+        renderKey(thresholds, formatting, binColours, binNames, reverse); // Render the key at the bottom of the screen
     
         createBars(dataset, noOfBins, bins, binColours, scale, reverse); // Create bars which correspond with the data provided
     });

@@ -1,14 +1,14 @@
 
 // ----------------------------------------------- R E N D E R   K E Y -----------------------------------------------
-function renderKey(thresholds, binColours, binNames, reverse) // Render the key 
+function renderKey(thresholds, formatting, binColours, binNames, reverse) // Render the key 
 {
-  renderKeyThresholds(thresholds);         // Render the text above the key, indicating the threshold values
+  renderKeyThresholds(thresholds, formatting);         // Render the text above the key, indicating the threshold values
   renderKeyBoxes(binColours, binNames, reverse);     // Render the boxes which show the colour for each bin
 }
 
 
 // ------------------------------------ R E N D E R   K E Y   T H R E S H O L D S ------------------------------------
-function renderKeyThresholds(thresholds) // Render the threshold labels for the key 
+function renderKeyThresholds(thresholds, formatting) // Render the threshold labels for the key 
 {
   var thresholdsContainer = document.getElementById("key-labels");      // Get the div element which is intended to constain the key labels
   var noOfThresholds = thresholds.length;                               // Get th number of labels which need to be rendered
@@ -17,7 +17,7 @@ function renderKeyThresholds(thresholds) // Render the threshold labels for the 
   {
     var label = document.createElement("div");                          // Creating a div element
 
-    label.textContent = thresholds[i].toFixed(0);                       // And Setting it to contain the threshold value text
+    label.textContent = getFormattedValue(thresholds[i], formatting);   // And Setting it to contain the formatted threshold value text
 
     label.style.width = thresholdsContainer.clientWidth/noOfThresholds; // Set the corect width
     label.style.textAlign = "center";                                   // Center align the text within the div
@@ -82,5 +82,26 @@ function removeKey() // Remove all of the elements within the "key-labels" and "
   while(boxes.firstChild)                              // Go through each child element in the boxes
   {
     boxes.removeChild(boxes.firstChild);               // and remove them
+  }
+}
+
+function getFormattedValue(value, formatting)
+{
+  switch(formatting)
+  {
+    case NumberFormatting.NONE:
+      return value.toFixed(0);
+    case NumberFormatting.COMMA_SEPARATED:
+      return new Intl.NumberFormat("en-GB", {style: "decimal", maximumFractionDigits: 0}).format(value.toFixed(0));
+    case NumberFormatting.CURRENCY:
+      return new Intl.NumberFormat("en-GB", {style: "currency", currency: "GBP", maximumFractionDigits: 0}).format(value.toFixed(0));
+    case NumberFormatting.CURRENCY_DECIMAL:
+      return new Intl.NumberFormat("en-GB", {style: "currency", currency: "GBP", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value.toFixed(2));
+    case NumberFormatting.DECIMAL:
+      return new Intl.NumberFormat("en-GB", {style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value.toFixed(2));
+    case NumberFormatting.PERCENTAGE:
+      return new Intl.NumberFormat("en-GB", {style: "percent"}).format(value.toFixed(0)/100);
+    default:
+      return value;
   }
 }
