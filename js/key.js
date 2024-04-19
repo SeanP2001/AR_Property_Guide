@@ -11,7 +11,7 @@ function renderKey(thresholds, formatting, binColours, binNames, reverse) // Ren
 function renderKeyThresholds(thresholds, formatting) // Render the threshold labels for the key 
 {
   var thresholdsContainer = document.getElementById("key-labels");      // Get the div element which is intended to constain the key labels
-  var noOfThresholds = thresholds.length;                               // Get th number of labels which need to be rendered
+  var noOfThresholds = thresholds.length;                               // Get the number of labels which need to be rendered
 
   for(var i = 0; i < noOfThresholds; i++)                               // Go through each threshold
   {
@@ -85,7 +85,9 @@ function removeKey() // Remove all of the elements within the "key-labels" and "
   }
 }
 
-function getFormattedValue(value, formatting)
+
+// -------------------------------------- G E T   F O R M A T T E D   V A L U E --------------------------------------
+function getFormattedValue(value, formatting)  // Return the value with the specified formatting applied
 {
   switch(formatting)
   {
@@ -94,7 +96,19 @@ function getFormattedValue(value, formatting)
     case NumberFormatting.COMMA_SEPARATED:
       return new Intl.NumberFormat("en-GB", {style: "decimal", maximumFractionDigits: 0}).format(value.toFixed(0));
     case NumberFormatting.CURRENCY:
-      return new Intl.NumberFormat("en-GB", {style: "currency", currency: "GBP", maximumFractionDigits: 0}).format(value.toFixed(0));
+      return new Intl.NumberFormat("en-GB", {style: "currency", currency: "GBP", maximumFractionDigits: 1}).format(value.toFixed(1));
+    case NumberFormatting.ABBREVIATED_CURRENCY:
+      const suffix = ["", "k", "m"];
+      var suffixNo = 0;
+      var coef = value;
+
+      while((coef/1000) >= 1)   
+      {
+        coef = coef/1000;
+        suffixNo = suffixNo + 1;
+      }
+
+      return getFormattedValue(coef, NumberFormatting.CURRENCY) + suffix[suffixNo];
     case NumberFormatting.CURRENCY_DECIMAL:
       return new Intl.NumberFormat("en-GB", {style: "currency", currency: "GBP", minimumFractionDigits: 2, maximumFractionDigits: 2}).format(value.toFixed(2));
     case NumberFormatting.DECIMAL:

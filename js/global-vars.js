@@ -2,9 +2,10 @@ const NumberFormatting = {
     NONE: 0,
     COMMA_SEPARATED: 1,
     CURRENCY: 2,
-    CURRENCY_DECIMAL: 3,
-    DECIMAL: 4,
-    PERCENTAGE: 5
+    ABBREVIATED_CURRENCY: 3,
+    CURRENCY_DECIMAL: 4,
+    DECIMAL: 5,
+    PERCENTAGE: 6
 };
 
 
@@ -47,7 +48,7 @@ const scoreBinColours = [
 // ---------------------------------- S A L A R Y   F I E L D   P A R A M E T E R S ----------------------------------
 const noOfSalaryBins = 5;
 const salaryScale = 0.00015;
-const salaryFormatting = NumberFormatting.CURRENCY;
+const salaryFormatting = NumberFormatting.ABBREVIATED_CURRENCY;
 
 const salaryBinColours = [
     '#E51E25', //Red
