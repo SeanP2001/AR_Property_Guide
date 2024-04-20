@@ -11,6 +11,7 @@
 
     <!-- Include the JavaScript files -->
     <script src="js/global-vars.js"></script>
+    <script src="js/general-functions.js"></script>
     <script src="js/data-handling.js"></script>
     <script src="js/data-rendering.js"></script>
     <script src="js/bins.js"></script>
@@ -35,9 +36,13 @@
     <div class="menu">
       <button onclick="toggleMenu()" class="menu-button" id="menu-button"></button>
       <div id="fields-menu" class="menu-content">
-        <a href="#" onclick="handleMenuSelection('Age')">Age</a>
-        <a href="#" onclick="handleMenuSelection('Score')">Score</a>
-        <a href="#" onclick="handleMenuSelection('Salary')">Salary</a>
+        <a href="#" onclick="handleMenuSelection('Price')">House Price</a>
+        <a href="#" onclick="handleMenuSelection('Bedrooms')">Number of Bedrooms</a>
+        <a href="#" onclick="handleMenuSelection('Bathrooms')">Number of Bathrooms</a>
+        <a href="#" onclick="handleMenuSelection('Year')">Date Last Sold</a>
+        <a href="#" onclick="handleMenuSelection('EPC_Score')">EPC</a>
+        <a href="#" onclick="handleMenuSelection('EPC_Potential_Score')">EPC Potential</a>
+        <a href="#" onclick="handleMenuSelection('Floor_Area_(ft^2)')">Floor Area (ft²)</a>
       </div>
     </div>      
     <div id="key-labels"></div>

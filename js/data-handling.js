@@ -10,8 +10,16 @@ function getData(file, field) // Load the specified field of data from the speci
 
       var dataset = [];                        // Array to store the dataset
 
-      for(let i = 0; i < data.length; i++) {   // Go through each element in the data
-        dataset.push(Number(data[i][field]));  // Get the data from the specified field, convert it to a number and add it to the dataset array
+      for(let i = 0; i < data.length; i++)     // Go through each element in the data
+      {   
+        if(data[i][field] == '')               // Represent missing values as NaN
+        {
+          dataset.push(NaN);
+        }
+        else                                   // If the value is present
+        {
+          dataset.push(Number(data[i][field])); // Get the data from the specified field, convert it to a number and add it to the dataset array
+        }
       }
       
       console.log(dataset);                    // Print the dataset array to the console

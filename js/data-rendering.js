@@ -37,6 +37,10 @@ function createBars(dataset, noOfBins, bins, binColours, scale, reverse) // Crea
     width: function(d){return 0.9;},            // Set the width to a const value (0.9)
     depth: function(d){return 0.9;},            // Set the depth to a const value (0.9)
     color: function(d,i){                       // Set the colour of the bar based on the colour of the bin given to the data point (can reverse order)
+        if(d == -1)               // NaN vals are grey bars
+        {
+          return naEntryColour;
+        }
         if(reverse){
           return binColours[noOfBins - 1 - bins[i]];
         } else {

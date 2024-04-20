@@ -5,14 +5,22 @@ function getBins(data, thresholds)  // Get an array containing the bin number fo
 
   for (var i = 0; i < data.length; i++)                                   // Iterate through each index in the dataset
   {
-    for(var bin = 0; bin < (thresholds.length-1); bin++)                  // Iterate through each bin number
+    if(isNaN(data[i]))                                                      // If the datapoint is not a number
     {
-      if ((data[i] >= thresholds[bin]) && (data[i] < thresholds[bin+1]))  // If the datapoint is within the lower and upper thresholds for this bin
-      {
-        bins.push(bin);                                                   // Append the bin number to the array of bin numbers
-        break;                                                            // Move onto the next datapoint
-      } 
+      bins.push(-1)                                                         // Categorise it as bin -1 
     }
+    else                                                                    // Otherwise if the value is a valid number
+    {
+      for(var bin = 0; bin < (thresholds.length-1); bin++)                  // Iterate through each bin number
+      {
+        if ((data[i] >= thresholds[bin]) && (data[i] < thresholds[bin+1]))  // If the datapoint is within the lower and upper thresholds for this bin
+        {
+          bins.push(bin);                                                   // Append the bin number to the array of bin numbers
+          break;                                                            // Move onto the next datapoint
+        } 
+      }
+    }
+    
   }
 
   console.log(bins);

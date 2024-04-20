@@ -3,14 +3,14 @@
 function handleMenuSelection(selection) // Load and display the data field selected in the menu
 {
     menuButton = document.getElementById("menu-button"); // Get the Menu Button
-    menuButton.textContent = selection;                  // And update its text to reflect the selected field
 
     removeKey();                                         // Delete the existing key 
 
-    getData("./SimpleData.csv", selection)     // Load the selected data from the dataset
+    getData("./HousesDataset.csv", selection)  // Load the selected data from the dataset
     .then(dataset =>                           // Once the dataset has been returned from the getData function, do the following
     {    
-        console.log(dataset);
+        var dataWithoutMissingVals = dataset.filter(val => !isNaN(val)); // Get a copy of the dataset with all missing values removed
+        console.log(dataWithoutMissingVals);
 
         var noOfBins;
         var binColours = [];
@@ -18,37 +18,106 @@ function handleMenuSelection(selection) // Load and display the data field selec
         var thresholds = [];
         var bins = [];
         var scale;
-        var reverse;  // Whether the order is reversed
-        var formatting;
+        var reverse;          // Whether the order is reversed
+        var formatting;       // How the data should be formatted
     
-        switch(selection) {                                    // Based on the field selected, set the number of bins, bin colours, thresholds, bins and scale
-            case "Age":
-                noOfBins = noOfAgeBins;
-                binColours = ageBinColours;
-                thresholds = getThresholds(dataset, noOfBins);  // Get the threshold values for the bins
-                bins = getBins(dataset, thresholds);            // Get the bin numbers of each datapoint in the dataset
-                scale = ageScale;
+        switch(selection)     // Based on the field selected, set the number of bins, bin colours, thresholds, bins and scale
+        {
+            case "Price":
+                menuButton.textContent = "House Price";                        // Update the menu button text to reflect the selected field
+                noOfBins = noOfPriceBins;
+                binColours = priceBinColours;
+                thresholds = getThresholds(dataWithoutMissingVals, noOfBins);  // Get the threshold values for the bins
+                bins = getBins(dataset, thresholds);                           // Get the bin numbers of each datapoint in the dataset
+                scale = priceScale;
                 reverse = false;
-                formatting = ageFormatting;
+                formatting = priceFormatting;
                 break;
-            case "Score":
-                noOfBins = noOfScoreBins;
-                binColours = scoreBinColours;
-                thresholds = scoreThresholds;  
-                bins = getBins(dataset, thresholds);            // Get the bin numbers of each datapoint in the dataset
-                binNames = scoreBinNames;
-                scale = scoreScale;
+            case "Bedrooms":
+                menuButton.textContent = "Number of Bedrooms";                 // Update the menu button text to reflect the selected field
+
+                var minValue = Math.min(...dataWithoutMissingVals);            // Get the smallest value in the data
+                var maxValue = Math.max(...dataWithoutMissingVals);            // Get the largest value in the data
+                 
+                thresholds = getRangeArray(minValue, maxValue + 1, 1);     
+                binNames = getRangeArray(minValue, maxValue, 1);           
+                noOfBins = binNames.length;
+                
+                // Select the bin colours from the middle of the colour range
+                var firstBinNo = Math.floor((bedroomsBinColours.length - noOfBins) / 2);
+                var lastBinNo = firstBinNo + noOfBins;
+                binColours = bedroomsBinColours.slice(firstBinNo, lastBinNo);
+
+                bins = getBins(dataset, thresholds);                           // Get the bin numbers of each datapoint in the dataset
+                
+                thresholds = [];                                               // Clear the thresholds so they are not rendered above the key
+                scale = bedroomsScale;
                 reverse = false;
-                formatting = scoreFormatting;
+                formatting = bedroomsFormatting;
                 break;
-            case "Salary":
-                noOfBins = noOfSalaryBins;
-                binColours = salaryBinColours;
-                thresholds = getThresholds(dataset, noOfBins);  // Get the threshold values for the bins
-                bins = getBins(dataset, thresholds);            // Get the bin numbers of each datapoint in the dataset
-                scale = salaryScale;
+            case "Bathrooms":
+                menuButton.textContent = "Number of Bathrooms";                // Update the menu button text to reflect the selected field
+
+                var minValue = Math.min(...dataWithoutMissingVals);            // Get the smallest value in the data
+                var maxValue = Math.max(...dataWithoutMissingVals);            // Get the largest value in the data
+                 
+                thresholds = getRangeArray(minValue, maxValue + 1, 1);     
+                binNames = getRangeArray(minValue, maxValue, 1);           
+                noOfBins = binNames.length;
+                
+                // Select the bin colours from the middle of the colour range
+                var firstBinNo = Math.floor((bathroomsBinColours.length - noOfBins) / 2);
+                var lastBinNo = firstBinNo + noOfBins;
+                binColours = bathroomsBinColours.slice(firstBinNo, lastBinNo);
+
+                bins = getBins(dataset, thresholds);                           // Get the bin numbers of each datapoint in the dataset
+                
+                thresholds = [];                                               // Clear the thresholds so they are not rendered above the key
+                scale = bathroomsScale;
                 reverse = false;
-                formatting = salaryFormatting;
+                formatting = bathroomsFormatting;
+                break;
+            case "Year":
+                menuButton.textContent = "Date Last Sold";                     // Update the menu button text to reflect the selected field
+                noOfBins = noOfYearBins;
+                binColours = yearBinColours;
+                thresholds = getThresholds(dataWithoutMissingVals, noOfBins);  // Get the threshold values for the bins
+                bins = getBins(dataset, thresholds);                           // Get the bin numbers of each datapoint in the dataset
+                scale = yearScale;
+                reverse = false;
+                formatting = yearFormatting;
+                break;
+            case "EPC_Score":
+                menuButton.textContent = "EPC";                                // Update the menu button text to reflect the selected field
+                noOfBins = noOfEPCBins;
+                binColours = epcBinColours;
+                thresholds = epcThresholds;                                    // Use pre-defined threshold values
+                bins = getBins(dataset, thresholds);                           // Get the bin numbers of each datapoint in the dataset
+                binNames = epcBinNames;
+                scale = epcScale;
+                reverse = false;
+                formatting = epcFormatting;
+                break;
+            case "EPC_Potential_Score":
+                menuButton.textContent = "EPC Potential";                      // Update the menu button text to reflect the selected field
+                noOfBins = noOfEPCBins;
+                binColours = epcBinColours;
+                thresholds = epcThresholds;                                    // Use pre-defined threshold values
+                bins = getBins(dataset, thresholds);                           // Get the bin numbers of each datapoint in the dataset
+                binNames = epcBinNames;
+                scale = epcScale;
+                reverse = false;
+                formatting = epcFormatting;
+                break;
+            case "Floor_Area_(ft^2)":
+                menuButton.textContent = "Floor Area (ft²)";                   // Update the menu button text to reflect the selected field
+                noOfBins = noOfFloorAreaBins;
+                binColours = floorAreaBinColours;
+                thresholds = getThresholds(dataWithoutMissingVals, noOfBins);  // Get the threshold values for the bins
+                bins = getBins(dataset, thresholds);                           // Get the bin numbers of each datapoint in the dataset
+                scale = floorAreaScale;
+                reverse = false;
+                formatting = floorAreaFormatting;
                 break;
             }
     
