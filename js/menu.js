@@ -6,10 +6,12 @@ function handleMenuSelection(selection) // Load and display the data field selec
 
     removeKey();                                         // Delete the existing key 
 
-    getData("./HousesDataset.csv", selection)  // Load the selected data from the dataset
+    getData("./HousesDataset.csv", [selection, "Latitude", "Longitude"])  // Load the selected data from the dataset
     .then(dataset =>                           // Once the dataset has been returned from the getData function, do the following
     {    
-        var dataWithoutMissingVals = dataset.filter(val => !isNaN(val)); // Get a copy of the dataset with all missing values removed
+        var data = dataset.map(row => row[0]); // Get the data from the first column of the dataset
+
+        var dataWithoutMissingVals = data.filter(val => !isNaN(val)); // Get a copy of the dataset with all missing values removed
         console.log(dataWithoutMissingVals);
 
         var noOfBins;
@@ -28,7 +30,7 @@ function handleMenuSelection(selection) // Load and display the data field selec
                 noOfBins = noOfPriceBins;
                 binColours = priceBinColours;
                 thresholds = getThresholds(dataWithoutMissingVals, noOfBins);  // Get the threshold values for the bins
-                bins = getBins(dataset, thresholds);                           // Get the bin numbers of each datapoint in the dataset
+                bins = getBins(data, thresholds);                              // Get the bin numbers of each datapoint in the data
                 scale = priceScale;
                 reverse = false;
                 formatting = priceFormatting;
@@ -38,7 +40,7 @@ function handleMenuSelection(selection) // Load and display the data field selec
 
                 var minValue = Math.min(...dataWithoutMissingVals);            // Get the smallest value in the data
                 var maxValue = Math.max(...dataWithoutMissingVals);            // Get the largest value in the data
-                 
+                
                 thresholds = getRangeArray(minValue, maxValue + 1, 1);     
                 binNames = getRangeArray(minValue, maxValue, 1);           
                 noOfBins = binNames.length;
@@ -48,7 +50,7 @@ function handleMenuSelection(selection) // Load and display the data field selec
                 var lastBinNo = firstBinNo + noOfBins;
                 binColours = bedroomsBinColours.slice(firstBinNo, lastBinNo);
 
-                bins = getBins(dataset, thresholds);                           // Get the bin numbers of each datapoint in the dataset
+                bins = getBins(data, thresholds);                              // Get the bin numbers of each datapoint in the data
                 
                 thresholds = [];                                               // Clear the thresholds so they are not rendered above the key
                 scale = bedroomsScale;
@@ -60,7 +62,7 @@ function handleMenuSelection(selection) // Load and display the data field selec
 
                 var minValue = Math.min(...dataWithoutMissingVals);            // Get the smallest value in the data
                 var maxValue = Math.max(...dataWithoutMissingVals);            // Get the largest value in the data
-                 
+                
                 thresholds = getRangeArray(minValue, maxValue + 1, 1);     
                 binNames = getRangeArray(minValue, maxValue, 1);           
                 noOfBins = binNames.length;
@@ -70,7 +72,7 @@ function handleMenuSelection(selection) // Load and display the data field selec
                 var lastBinNo = firstBinNo + noOfBins;
                 binColours = bathroomsBinColours.slice(firstBinNo, lastBinNo);
 
-                bins = getBins(dataset, thresholds);                           // Get the bin numbers of each datapoint in the dataset
+                bins = getBins(data, thresholds);                              // Get the bin numbers of each datapoint in the data
                 
                 thresholds = [];                                               // Clear the thresholds so they are not rendered above the key
                 scale = bathroomsScale;
@@ -82,7 +84,7 @@ function handleMenuSelection(selection) // Load and display the data field selec
                 noOfBins = noOfYearBins;
                 binColours = yearBinColours;
                 thresholds = getThresholds(dataWithoutMissingVals, noOfBins);  // Get the threshold values for the bins
-                bins = getBins(dataset, thresholds);                           // Get the bin numbers of each datapoint in the dataset
+                bins = getBins(data, thresholds);                              // Get the bin numbers of each datapoint in the data
                 scale = yearScale;
                 reverse = false;
                 formatting = yearFormatting;
@@ -92,7 +94,7 @@ function handleMenuSelection(selection) // Load and display the data field selec
                 noOfBins = noOfEPCBins;
                 binColours = epcBinColours;
                 thresholds = epcThresholds;                                    // Use pre-defined threshold values
-                bins = getBins(dataset, thresholds);                           // Get the bin numbers of each datapoint in the dataset
+                bins = getBins(data, thresholds);                              // Get the bin numbers of each datapoint in the data
                 binNames = epcBinNames;
                 scale = epcScale;
                 reverse = false;
@@ -103,7 +105,7 @@ function handleMenuSelection(selection) // Load and display the data field selec
                 noOfBins = noOfEPCBins;
                 binColours = epcBinColours;
                 thresholds = epcThresholds;                                    // Use pre-defined threshold values
-                bins = getBins(dataset, thresholds);                           // Get the bin numbers of each datapoint in the dataset
+                bins = getBins(data, thresholds);                              // Get the bin numbers of each datapoint in the data
                 binNames = epcBinNames;
                 scale = epcScale;
                 reverse = false;
@@ -114,7 +116,7 @@ function handleMenuSelection(selection) // Load and display the data field selec
                 noOfBins = noOfFloorAreaBins;
                 binColours = floorAreaBinColours;
                 thresholds = getThresholds(dataWithoutMissingVals, noOfBins);  // Get the threshold values for the bins
-                bins = getBins(dataset, thresholds);                           // Get the bin numbers of each datapoint in the dataset
+                bins = getBins(data, thresholds);                              // Get the bin numbers of each datapoint in the data
                 scale = floorAreaScale;
                 reverse = false;
                 formatting = floorAreaFormatting;
@@ -123,7 +125,8 @@ function handleMenuSelection(selection) // Load and display the data field selec
     
         renderKey(thresholds, formatting, binColours, binNames, reverse); // Render the key at the bottom of the screen
     
-        createBars(dataset, noOfBins, bins, binColours, scale, reverse); // Create bars which correspond with the data provided
+        createBars(data, noOfBins, bins, binColours, scale, reverse); // Create bars which correspond with the data provided
+        createWaypoints(dataset, noOfBins, bins, binColours, reverse); // Create waypoints which correspond with the dataset provided
     });
 }
 

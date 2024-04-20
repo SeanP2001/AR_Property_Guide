@@ -109,4 +109,7 @@ const floorAreaBinColours = [
 
 // ----------------------------------------------------- M I S C -----------------------------------------------------
 
-var naEntryColour = '#6b6b6b'; // Entries with missing values are grey
+const naEntryColour = '#6b6b6b';  // Entries with missing values are grey
+const waypointVerticalPos = 10;   // Waypoints will render x metres above ground level
+const waypointRadius = 1;         // The waypoints have a 1 metre radius   
+const waypointHeight = 2;         // The waypoints have a 2 metre height

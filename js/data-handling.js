@@ -1,6 +1,6 @@
 
 // ------------------------------------------------- G E T   D A T A -------------------------------------------------
-function getData(file, field) // Load the specified field of data from the specified file, creating colour coded objects for each instance
+function getData(file, fields) // Load the specified fields of data from the specified file, creating colour coded objects for each instance
 {   
   return new Promise((resolve) =>              // Return a value, once the promise has been resolved (once the operation is complete)
   {
@@ -10,16 +10,23 @@ function getData(file, field) // Load the specified field of data from the speci
 
       var dataset = [];                        // Array to store the dataset
 
-      for(let i = 0; i < data.length; i++)     // Go through each element in the data
+      for(let i = 0; i < data.length; i++)     // Go through each row in the data
       {   
-        if(data[i][field] == '')               // Represent missing values as NaN
+        var dataRow = [];
+
+        fields.forEach(field =>                // Then for each field requested
         {
-          dataset.push(NaN);
-        }
-        else                                   // If the value is present
-        {
-          dataset.push(Number(data[i][field])); // Get the data from the specified field, convert it to a number and add it to the dataset array
-        }
+          if(data[i][field] == '')             // Represent missing values as NaN
+          {
+            dataRow.push(NaN);
+          }
+          else                                   // If the value is present
+          {
+            dataRow.push(Number(data[i][field])); // Get the data from the specified field, convert it to a number and add it to the dataset array
+          }
+        });
+
+        dataset.push(dataRow);
       }
       
       console.log(dataset);                    // Print the dataset array to the console
