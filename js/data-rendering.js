@@ -68,24 +68,29 @@ function createWaypoints(dataset, noOfBins, bins, binColours, reverse) // Create
   //  d = The data bound to the current element (provided by D3 during execution)
   //  i = The index of the current element in the selection (provided by D3 during execution)
   myWaypoints.attr({
-    geometry: 'primitive: cone',                             // Each waypoint is a cone
+    geometry: "primitive: cone",                             // Each waypoint is a cone
     rotation: "180 0 0",                                     // which is upside down
     radiusBottom: waypointRadius,
     height: waypointHeight,
     "gps-new-entity-place": function(d) {                    // Set the GPS position based on the latitude and longitude in the dataset
+      console.log("latitude: " + d[1] + "; longitude: " + d[2]);
       return "latitude: " + d[1] + "; longitude: " + d[2];
     },
     position: "0 " + waypointVerticalPos + " 0",             // Change the vertical position so the waypoints appear above the houses
-    color: function(d,i){                                    // Set the colour of the bar based on the colour of the bin given to the data point (can reverse order)
-      if(isNaN(d[0]))                                         // NaN vals are grey waypoints
+    material: function(d,i){                                 // Set the colour of the bar based on the colour of the bin given to the data point (can reverse order)
+      if(isNaN(d[0]))                                        // NaN vals are grey waypoints
       {
-        return naEntryColour;
+        return "color: " + naEntryColour;
       }
       if(reverse){
-        return binColours[noOfBins - 1 - bins[i]];
+        return "color: " + binColours[noOfBins - 1 - bins[i]];
       } else {
-        return binColours[bins[i]];
+        return "color: " + binColours[bins[i]];
       }
     }                           
   });
 }
+//INTENDED: <a-entity class="waypoint" geometry="primitive: cone" rotation="180 0 0" radiusbottom="1" height="2" gps-new-entity-place="latitude: 53.23002142420725; longitude: -4.121851294362161" position="0 10 0" material="color: #6b6b6b"></a-entity>
+//ACTUAL:   <a-entity class="waypoint" geometry="" rotation="" radiusbottom="1" height="2" gps-new-entity-place="" position="" material=""></a-entity>
+
+//EXAMPLE:  <a-entity material='color: red' geometry='primitive: box' gps-new-entity-place="latitude: 53.23002142420725; longitude: -4.121851294362161" scale="10 10 10"></a-entity>

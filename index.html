@@ -36,7 +36,14 @@
   <!-- LOCATION BASED AR - Show the waypoints above the properties -->
   <a-scene id="waypoints" vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
     <!-- Dynamically generated waypoints go here -->
-    <a-camera gps-new-camera='gpsMinDistance: 5'></a-camera>
+    <a-entity material='color: red' geometry='primitive: box' gps-new-entity-place="latitude: 53.23002142420725; longitude: -4.121851294362161" scale="10 10 10"></a-entity>
+    <a-entity class="waypoint" geometry="primitive: cone" rotation="180 0 0" radiusbottom="1" height="2" gps-new-entity-place="latitude: 53.232817002649; longitude: -4.11995834556769" position="0 10 0" material="color: #00823A"></a-entity>
+    <a-entity class="waypoint" geometry="primitive: cone" rotation="180 0 0" radiusbottom="1" height="2" gps-new-entity-place="latitude: 53.2321085326139; longitude: -4.12016163683334" position="0 10 0" material="color: #9FCC3D"></a-entity>
+    <a-entity class="waypoint" geometry="primitive: cone" rotation="180 0 0" radiusbottom="1" height="2" gps-new-entity-place="latitude: 53.2317921924415; longitude: -4.12087108073345" position="0 10 0" material="color: #E51E25"></a-entity>
+    <a-entity class="waypoint" geometry="primitive: cone" rotation="180 0 0" radiusbottom="1" height="2" gps-new-entity-place="latitude: 53.2306613038531; longitude: -4.12147251727404" position="0 10 0" material="color: #299E29"></a-entity>
+    <a-entity class="waypoint" geometry="primitive: cone" rotation="180 0 0" radiusbottom="1" height="2" gps-new-entity-place="latitude: 53.2308218191758; longitude: -4.12175005721608" position="0 10 0" material="color: #FFF300"></a-entity>
+
+    <a-camera gps-new-camera='gpsMinDistance: 5'></a-camera> 
   </a-scene>
 
   <div id="bottom-section">
