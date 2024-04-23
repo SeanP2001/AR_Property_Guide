@@ -125,8 +125,8 @@ function handleMenuSelection(selection) // Load and display the data field selec
     
         renderKey(thresholds, formatting, binColours, binNames, reverse); // Render the key at the bottom of the screen
     
-        createBars(data, noOfBins, bins, binColours, scale, reverse); // Create bars which correspond with the data provided
-        //createWaypoints(dataset, noOfBins, bins, binColours, reverse); // Create waypoints which correspond with the dataset provided
+        //createBars(data, noOfBins, bins, binColours, scale, reverse); // Create bars which correspond with the data provided
+        createWaypoints(dataset, noOfBins, bins, binColours, reverse); // Create waypoints which correspond with the dataset provided
     });
 }
 
