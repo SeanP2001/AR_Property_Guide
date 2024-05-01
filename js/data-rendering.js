@@ -56,14 +56,14 @@ function createWaypoints(dataset, noOfBins, bins, binColours, reverse) // Create
   var content = d3.select("#waypoints");
 
   // Use D3's enter/update/exit pattern to draw and bind dom elements
-  myWaypoints = content.selectAll("a-entity.waypoint")   // Create a variable (myWaypoints), selecting all of the <a-box> elements with the class "bar" within the content element (There are none initially)
+  myWaypoints = content.selectAll("a-entity.waypoint")   // Create a variable (myWaypoints), selecting all of the <a-entity> elements with the class "waypoint" within the content element (There are none initially)
                 .data(dataset)                               // Bind each element in the dataset array to one of the selected dom elements
                 .enter()                                     // Prepare for new elements to be appended
                 .append("a-entity")                          // Append children <a-entity> elements for each element in the dataset array
-                .classed("waypoint", true)                   // Add the "waypoint" class to each newly created <a-box> elements
+                .classed("waypoint", true)                   // Add the "waypoint" class to each newly created <a-entity> elements
                 .attr("geometry", "primitive: cone")                                  // Each waypoint is a cone
                 .attr("rotation", "180 0 0")                                          // Which is upside down
-                .attr("scale", waypointScale + " " + waypointScale/2 + " " + waypointScale) // Scale the waypoint so it appears larger
+                .attr("scale", waypointScale + " " + waypointScale/2 + " " + waypointScale) // Scale the waypoint so it appears larger (halved y-axis to accomodate videoTexture bug)
                 .attr("gps-new-entity-place", function(d) {                           // Set the GPS position based on the latitude and longitude in the dataset
                   console.log("latitude: " + d[1] + "; longitude: " + d[2]);
                   return "latitude: " + d[1] + "; longitude: " + d[2]; 

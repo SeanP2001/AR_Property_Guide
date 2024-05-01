@@ -21,24 +21,15 @@ View the deployed application [here](https://seanp2001.github.io/AR_Property_Gui
 
 ## Development
 
-| <p align="center">V0.3.0 Binning</p> | <p align="center">V0.4.0 Key</p> | <p align="center">V0.5.0 Menu</p> |
-| --- | --- | --- |
-| <img src="./Images/V0.3.0 Binning.png"> | <img src="./Images/V0.4.0 Key.png"> | <img src="./Images/V0.5.0 Menu.png"> |
-
-
 <div style="display: flex; justify-content: space-between;">
-    <div style="width: 32%;">
-        <p align="center"><b>V0.5.2 Formatting & Bin Names</b></p>
-        <img src="./Images/V0.5.2 Number Formatting and Bin Names.png" style="width: 100%;">
-    </div>
-    <div style="width: 32%;">
-        <p align="center"><b>V0.5.3 Abbreviated Currency</b></p>
-        <img src="./Images/V0.5.3 Abbreviated Currency Formatting.png" style="width: 100%;">
-    </div>
-    <div style="width: 32%;">
-        <p align="center"><b>V0.6.0 Added Houses Dataset</b></p>
-        <img src="./Images/V0.6.0 Added Houses Dataset.png" style="width: 100%;">
-    </div>
+    <img src="./Images/V0.3.0 Binning.png" style="width: 32%;">
+    <img src="./Images/V0.4.0 Key.png" style="width: 32%;">
+    <img src="./Images/V0.5.0 Menu.png" style="width: 32%;">
+</div>
+<div style="display: flex; justify-content: space-between;">
+    <img src="./Images/V0.5.2 Number Formatting and Bin Names.png" style="width: 32%;">
+    <img src="./Images/V0.5.3 Abbreviated Currency Formatting.png" style="width: 32%;">
+    <img src="./Images/V0.6.0 Added Houses Dataset.png" style="width: 32%;">
 </div>
 
 
